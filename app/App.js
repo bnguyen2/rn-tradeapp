@@ -1,19 +1,44 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AppearanceProvider } from 'react-native-appearance';
 
-export default function App() {
+import { ApolloProvider } from '@apollo/react-hooks';
+import apolloClient from './apollo/apolloClient';
+
+import LoginScreen from './src/screens/LoginScreen';
+import LoginModalScreen from './src/screens/LoginModalScreen';
+
+const LoginStack = createStackNavigator();
+const RootStack = createStackNavigator();
+
+const LoginScreens = () => {
   return (
-    <View style={styles.container}>
-      <Text>this is some weird shit going on</Text>
-    </View>
+    <LoginStack.Navigator headerMode="none ">
+      <LoginStack.Screen name="Login" component={LoginScreen} />
+    </LoginStack.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  return (
+    <NavigationContainer>
+      <RootStack.Navigator mode="modal" headerMode="none">
+        <RootStack.Screen name="Main" component={LoginScreens} />
+        <RootStack.Screen name="LoginModal" component={LoginModalScreen} />
+      </RootStack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default () => {
+  const client = apolloClient();
+
+  return (
+    <ApolloProvider client={client}>
+      <AppearanceProvider>
+        <App />
+      </AppearanceProvider>
+    </ApolloProvider>
+  );
+};
