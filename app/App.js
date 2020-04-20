@@ -21,7 +21,6 @@ const App = () => {
   const {
     state: { token },
   } = useContext(AuthContext);
-  console.log('token: ', token);
 
   return (
     <NavigationContainer ref={navigationRef}>

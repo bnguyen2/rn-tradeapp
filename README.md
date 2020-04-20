@@ -2,7 +2,7 @@
 
 ## Quickstart
 
-1. `docker-compose up -d` from the root directory to spin us services
+1. `docker-compose up -d` from the root directory to spin up services
 
 2. cd in app, `npm start`
 
