@@ -1,32 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppearanceProvider } from 'react-native-appearance';
-
 import { ApolloProvider } from '@apollo/react-hooks';
-import apolloClient from './apollo/apolloClient';
 
-import LoginScreen from './src/screens/LoginScreen';
-import LoginModalScreen from './src/screens/LoginModalScreen';
+import { AuthProvider } from 'context/authContext';
+import AuthContext from 'context/authContext';
+import { navigationRef } from 'helpers/navigationRef';
+import apolloClient from 'apollo/apolloClient';
 
-const LoginStack = createStackNavigator();
-const RootStack = createStackNavigator();
+import HomeScreen from 'screens/HomeScreen';
+import SignupScreen from 'screens/SignupScreen';
+import AccountScreen from 'screens/AccountScreen';
 
-const LoginScreens = () => {
-  return (
-    <LoginStack.Navigator headerMode="none ">
-      <LoginStack.Screen name="Login" component={LoginScreen} />
-    </LoginStack.Navigator>
-  );
-};
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const App = () => {
+  const {
+    state: { token },
+  } = useContext(AuthContext);
+  console.log('token: ', token);
+
   return (
-    <NavigationContainer>
-      <RootStack.Navigator mode="modal" headerMode="none">
-        <RootStack.Screen name="Main" component={LoginScreens} />
-        <RootStack.Screen name="LoginModal" component={LoginModalScreen} />
-      </RootStack.Navigator>
+    <NavigationContainer ref={navigationRef}>
+      {token === null ? (
+        <Stack.Navigator mode="modal" headerMode="none">
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="SignupModal" component={SignupScreen} />
+        </Stack.Navigator>
+      ) : (
+        <Tab.Navigator>
+          <Tab.Screen name="Account" component={AccountScreen} />
+        </Tab.Navigator>
+      )}
     </NavigationContainer>
   );
 };
@@ -37,7 +45,9 @@ export default () => {
   return (
     <ApolloProvider client={client}>
       <AppearanceProvider>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </AppearanceProvider>
     </ApolloProvider>
   );

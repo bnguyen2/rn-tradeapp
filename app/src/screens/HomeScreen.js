@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View, Button, StyleSheet } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-const LoginScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
   const getAllPersonsQuery = useQuery(gql`
-    query get_person {
+    query getPerson {
       person {
         first_name
         last_name
@@ -13,14 +13,14 @@ const LoginScreen = ({ navigation }) => {
     }
   `);
 
-  console.log(getAllPersonsQuery?.data);
+  // console.log(getAllPersonsQuery?.data);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Good asdfasdfman</Text>
+      <Text style={styles.text}>This is awesome</Text>
 
       <View style={styles.bottom}>
-        <Button title="Sign in" onPress={() => navigation.navigate('LoginModal')} />
+        <Button title="Sign in" onPress={() => navigation.navigate('SignupModal')} />
       </View>
     </View>
   );
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default HomeScreen;

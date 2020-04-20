@@ -1,11 +1,11 @@
 import { ApolloClient } from 'apollo-boost';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { aplloApi } from './api';
+import { apolloApi } from 'api/apolloApi';
 
 const apolloClient = (token) => {
   const link = new HttpLink({
-    uri: aplloApi,
+    uri: apolloApi,
     headers: {
       Authorization: `Bearer ${token}`,
       'x-hasura-admin-secret': 'secret', // make env variable
