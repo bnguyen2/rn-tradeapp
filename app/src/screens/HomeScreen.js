@@ -20,7 +20,8 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.text}>This is awesome</Text>
 
       <View style={styles.bottom}>
-        <Button title="Sign in" onPress={() => navigation.navigate('SignupModal')} />
+        <Button title="Sign up" onPress={() => navigation.navigate('SignupModal')} />
+        <Button title="Sign in" onPress={() => navigation.navigate('SigninModal')} />
       </View>
     </View>
   );
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 10,
+    borderWidth: 3,
     borderColor: 'red',
   },
   text: {

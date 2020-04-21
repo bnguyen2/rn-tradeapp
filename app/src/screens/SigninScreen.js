@@ -5,12 +5,10 @@ import AuthContext from 'context/authContext';
 const SignupScreen = ({ navigation }) => {
   const {
     state: { errorMessage },
-    signup,
+    signin,
     clearErrorMessage,
   } = useContext(AuthContext);
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,22 +19,6 @@ const SignupScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="First Name"
-        placeholderTextColor="#a8a8a8"
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(text) => setFirstName(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Last Name"
-        placeholderTextColor="#a8a8a8"
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(text) => setLastName(text)}
-      />
       <TextInput
         style={styles.input}
         placeholder="Email Address"
@@ -55,7 +37,7 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={(text) => setPassword(text)}
       />
 
-      <Button title="Submit" onPress={() => signup(firstName, lastName, email, password)} />
+      <Button title="Submit" onPress={() => signin(email, password)} />
 
       <Button title="Dismiss" onPress={() => navigation.goBack()} />
 

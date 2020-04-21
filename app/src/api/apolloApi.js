@@ -5,5 +5,5 @@ const { manifest } = Constants;
 
 export const apolloApi =
   typeof manifest.packagerOpts === `object` && manifest.packagerOpts.dev
-    ? `http://192.168.1.4:8080/v1/graphql`
+    ? `http://192.168.1.2:8080/v1/graphql`
     : `http://api.todo.com`;

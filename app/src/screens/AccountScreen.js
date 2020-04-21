@@ -1,10 +1,14 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import AuthContext from 'context/authContext';
 
 const AccountScreen = () => {
+  const { signout } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
-      <Text>todo</Text>
+      <Text style={styles.text}>todo</Text>
+      <Button title="signout" onPress={signout} />
     </View>
   );
 };
@@ -15,8 +19,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 10,
+    borderWidth: 3,
     borderColor: 'red',
+  },
+  text: {
+    color: '#fff',
   },
 });
 
