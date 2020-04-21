@@ -9,10 +9,14 @@ const router = express.Router();
 router.post('/signup', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
+  if (!firstName || !lastName || !email || !password) {
+    return res.status(422).send({ error: 'Must provide all information' });
+  }
+
+  const client = await pgClient.connect();
+
   try {
     const hashed = await hashPassword(password);
-
-    const client = await pgClient.connect();
 
     const INSERT_PERSON_SQL = `INSERT into person(first_name, last_name) VALUES($1, $2) RETURNING *`;
     const INSERT_AUTH_SQL = `INSERT into auth(email, hashed_password, person_id) VALUES($1, $2, $3)`;
@@ -23,8 +27,6 @@ router.post('/signup', async (req, res) => {
 
     const token = jwt.sign(
       {
-        firstName,
-        lastName,
         'https://hasura.io/jwt/claims': {
           'x-hasura-allowed-roles': ['user'],
           'x-hasura-default-role': 'user',
@@ -37,9 +39,57 @@ router.post('/signup', async (req, res) => {
     res.send({ token });
   } catch (err) {
     res.status(422).send(err.message);
+  } finally {
+    client.release();
   }
 });
 
-router.post('/signin', (req, res) => {});
+router.post('/signin', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(422).send({ error: 'Must provide email and password' });
+  }
+
+  const client = await pgClient.connect();
+
+  try {
+    const FETCH_USER = {
+      name: 'fetch_user',
+      text: `SELECT email, hashed_password, person_id FROM auth WHERE email = $1`,
+      values: [email],
+    };
+
+    const response = await client.query(FETCH_USER);
+
+    // if a user does not exist in our db
+    if (!response.rows.length) {
+      return res.status(422).send({ error: 'User does not exist' });
+    }
+
+    const hash = response.rows[0].hashed_password;
+    const isValid = await comparePassword(password, hash);
+
+    if (isValid) {
+      const token = jwt.sign(
+        {
+          'https://hasura.io/jwt/claims': {
+            'x-hasura-allowed-roles': ['user'],
+            'x-hasura-default-role': 'user',
+            'x-hasura-user-id': response.rows[0].person_id,
+          },
+        },
+        JWT_SECRET
+      );
+      res.send({ token });
+    } else {
+      return res.status(422).send({ error: 'Invalid password or email' });
+    }
+  } catch (err) {
+    res.status(422).send(err.message);
+  } finally {
+    client.release();
+  }
+});
 
 module.exports = router;
