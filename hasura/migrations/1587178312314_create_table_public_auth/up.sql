@@ -1,0 +1,2 @@
+
+CREATE TABLE "public"."auth"("id" bigserial NOT NULL, "email" text NOT NULL, "hashed_password" text NOT NULL, "person_id" bigserial NOT NULL, "created" timestamptz NOT NULL DEFAULT now(), "updated" timestamptz NOT NULL DEFAULT now(), PRIMARY KEY ("id") , FOREIGN KEY ("person_id") REFERENCES "public"."person"("id") ON UPDATE restrict ON DELETE restrict);

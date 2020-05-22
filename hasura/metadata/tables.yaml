@@ -1,0 +1,33 @@
+- table:
+    schema: public
+    name: auth
+- table:
+    schema: public
+    name: person
+  array_relationships:
+  - name: auths
+    using:
+      foreign_key_constraint_on:
+        column: person_id
+        table:
+          schema: public
+          name: auth
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - first_name
+      - id
+      - last_name
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - first_name
+      - last_name
+      filter:
+        id:
+          _eq: X-Hasura-User-Id

@@ -1,0 +1,2 @@
+
+CREATE TABLE "public"."person"("id" bigserial NOT NULL, "first_name" text NOT NULL, "last_name" text NOT NULL, "created" time NOT NULL DEFAULT now(), "updated" time NOT NULL DEFAULT now(), PRIMARY KEY ("id") );

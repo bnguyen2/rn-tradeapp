@@ -1,6 +1,0 @@
-- args:
-    relationship: auths
-    table:
-      name: person
-      schema: public
-  type: drop_relationship
