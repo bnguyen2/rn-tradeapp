@@ -1,20 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Text, View, Button, StyleSheet } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
 const HomeScreen = ({ navigation }) => {
-  const getAllPersonsQuery = useQuery(gql`
-    query getPerson {
-      person {
-        first_name
-        last_name
-      }
-    }
-  `);
-
-  // console.log(getAllPersonsQuery?.data);
-
   return (
     <View style={styles.container}>
       <Text style={styles.text}>This is awesome</Text>

@@ -8,7 +8,7 @@ const apolloClient = (token) => {
     uri: apolloApi,
     headers: {
       Authorization: `Bearer ${token}`,
-      'x-hasura-admin-secret': 'secret', // make env variable
+      // 'x-hasura-admin-secret': 'secret', // make env variable
     },
   });
 
