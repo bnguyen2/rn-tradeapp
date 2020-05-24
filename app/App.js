@@ -5,18 +5,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppearanceProvider } from 'react-native-appearance';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { AsyncStorage } from 'react-native';
+import { AppLoading } from 'expo';
+import { useFonts } from '@use-expo/font';
 
 import { AuthProvider } from 'context/authContext';
 import AuthContext from 'context/authContext';
 import { navigationRef } from 'helpers/navigationRef';
 import apolloClient from 'apollo/apolloClient';
 
+// abstract this to navigators
 import HomeScreen from 'screens/HomeScreen';
 import SignupScreen from 'screens/SignupScreen';
 import SigninScreen from 'screens/SigninScreen';
 import AccountScreen from 'screens/AccountScreen';
-
-import LoadingSpiner from 'components/LoadingSpinner';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -43,8 +44,17 @@ const App = () => {
     fetchSession();
   }, []);
 
+  const [fontsLoaded] = useFonts({
+    Roboto: require('./src/assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Bold': require('./src/assets/fonts/Roboto-Bold.ttf'),
+  });
+
   if (!client) {
-    return <LoadingSpiner />;
+    return <AppLoading />;
+  }
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
   }
 
   return (
