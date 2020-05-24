@@ -1,8 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import AuthContext from 'context/authContext';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import serverApi from 'api/serverApi';
+
+import MyAppText from 'components/MyAppText';
 
 const AccountScreen = () => {
   const { signout } = useContext(AuthContext);
@@ -18,10 +21,22 @@ const AccountScreen = () => {
 
   console.log(getAllPersonsQuery?.data);
 
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const response = await serverApi.get('/test');
+  //     console.log('response: ', response.data);
+  //   };
+
+  //   fetch();
+  // }, []);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>todo</Text>
-      <Button title="signout" onPress={signout} />
+      <MyAppText>
+        <Text style={styles.text}>todo</Text>
+      </MyAppText>
+
+      <Button style={styles.button} title="signout" onPress={signout} />
     </View>
   );
 };
@@ -32,11 +47,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: 'red',
   },
   text: {
-    color: '#fff',
+    fontSize: 20,
+  },
+  button: {
+    fontFamily: 'Roboto-Bold',
   },
 });
 

@@ -1,10 +1,13 @@
 import React from 'react';
 import { Text, View, Button, StyleSheet } from 'react-native';
+import MyAppText from 'components/MyAppText/index';
 
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>This is awesome</Text>
+      <MyAppText>
+        <Text style={styles.text}>This is awesome</Text>
+      </MyAppText>
 
       <View style={styles.bottom}>
         <Button title="Sign up" onPress={() => navigation.navigate('SignupModal')} />
@@ -20,8 +23,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: 'red',
   },
   text: {
     color: '#fff',
