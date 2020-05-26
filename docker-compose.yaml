@@ -21,13 +21,14 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_ADMIN_SECRET: secret
       HASURA_GRAPHQL_JWT_SECRET: '{"type": "HS256", "key": "LOCAL_TEST_SECRET___DO_NOT_USE_IN_PROD", "claims_format": "json"}'
-  api:
+
+  auth:
     build:
       dockerfile: Dockerfile.dev
-      context: ./server
+      context: ./auth
     volumes:
       - /app/node_modules
-      - ./server:/app
+      - ./auth:/app
     ports:
       - '3000:3000'
     environment:
@@ -38,6 +39,17 @@ services:
       - PGPORT=5432
     depends_on:
       - 'postgres'
+    restart: always
+
+  server:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    ports:
+      - '3001:3001'
     restart: always
 
 volumes:
