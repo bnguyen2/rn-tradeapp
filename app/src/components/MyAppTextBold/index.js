@@ -1,16 +1,19 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text } from 'react-native';
+import { css } from 'styled-components/native';
 
 const CustomTextFont = ({ children }) => {
-  return <Text style={styles.text}>{children}</Text>;
+  return (
+    <Text
+      css={css`
+        font-family: 'Roboto-Bold';
+        color: #fff;
+        font-size: 16px;
+      `}
+    >
+      {children}
+    </Text>
+  );
 };
-
-const styles = StyleSheet.create({
-  text: {
-    fontFamily: 'Roboto-Bold',
-    color: '#fff',
-    fontSize: 16,
-  },
-});
 
 export default CustomTextFont;

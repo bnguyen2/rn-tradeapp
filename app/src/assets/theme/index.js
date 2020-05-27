@@ -14,6 +14,9 @@ const colors = {
   // tertiary
   heather: '#b5b5b5',
   silver: '#dcdcdc',
+
+  white: '#fff',
+  black: '#000',
 };
 
 export default { colors };
