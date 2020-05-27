@@ -1,12 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppearanceProvider } from 'react-native-appearance';
+import { ThemeProvider } from 'styled-components/native';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { AsyncStorage } from 'react-native';
 import { AppLoading } from 'expo';
 import { useFonts } from '@use-expo/font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import theme from 'assets/theme';
 import { AuthProvider } from 'context/authContext';
 import AuthContext from 'context/authContext';
 import { navigationRef } from 'helpers/navigationRef';
@@ -61,12 +63,14 @@ const App = () => {
 
 export default () => {
   return (
-    <AppearanceProvider>
-      <AuthProvider>
-        <SafeAreaProvider>
-          <App />
-        </SafeAreaProvider>
-      </AuthProvider>
-    </AppearanceProvider>
+    <ThemeProvider theme={theme}>
+      <AppearanceProvider>
+        <AuthProvider>
+          <SafeAreaProvider>
+            <App />
+          </SafeAreaProvider>
+        </AuthProvider>
+      </AppearanceProvider>
+    </ThemeProvider>
   );
 };

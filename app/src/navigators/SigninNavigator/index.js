@@ -10,7 +10,13 @@ const Stack = createStackNavigator();
 const SigninNavigator = () => {
   return (
     <Stack.Navigator mode="modal" headerMode="none">
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          animationEnabled: false,
+        }}
+      />
       <Stack.Screen name="SignupModal" component={SignupScreen} />
       <Stack.Screen name="SigninModal" component={SigninScreen} />
     </Stack.Navigator>

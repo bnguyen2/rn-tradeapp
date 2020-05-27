@@ -5,7 +5,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import AccountScreen from 'screens/AccountScreen';
 import PortfolioScreen from 'screens/PortfolioScreen';
 import SettingsScreen from 'screens/SettingsScreen';
-import NewsScreen from 'screens/NewsScreen';
+import DashboardScreen from 'screens/DashboardScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,11 +17,14 @@ const MainNavigator = () => {
           let iconName;
 
           switch (route.name) {
-            case 'Account':
+            case 'Dashboard':
               iconName = 'user';
               break;
-            case 'Portfolio':
+            case 'Trades':
               iconName = 'list';
+              break;
+            case 'Account':
+              iconName = 'user';
               break;
             case 'Settings':
               iconName = 'gear';
@@ -31,7 +34,7 @@ const MainNavigator = () => {
           return <FontAwesome name={iconName} color={color} size={size} />;
         },
       })}
-      initialRouteName="Portfolio"
+      initialRouteName="Trades"
       tabBarOptions={{
         showLabel: false,
         tabStyle: {
@@ -46,7 +49,8 @@ const MainNavigator = () => {
         inactiveTintColor: 'gray',
       }}
     >
-      <Tab.Screen name="Portfolio" component={PortfolioScreen} />
+      <Tab.Screen name="Dashboard" component={DashboardScreen} />
+      <Tab.Screen name="Trades" component={PortfolioScreen} />
       <Tab.Screen name="Account" component={AccountScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
