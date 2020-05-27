@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import AccountScreen from 'screens/AccountScreen';
 import PortfolioScreen from 'screens/PortfolioScreen';
@@ -14,24 +15,16 @@ const MainNavigator = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
           switch (route.name) {
             case 'Dashboard':
-              iconName = 'user';
-              break;
+              return <MaterialIcons name="dashboard" color={color} size={size} />;
             case 'Trades':
-              iconName = 'list';
-              break;
+              return <FontAwesome name="list" color={color} size={size} />;
             case 'Account':
-              iconName = 'user';
-              break;
+              return <FontAwesome name="user" color={color} size={size} />;
             case 'Settings':
-              iconName = 'gear';
-              break;
+              return <FontAwesome name="gear" color={color} size={size} />;
           }
-
-          return <FontAwesome name={iconName} color={color} size={size} />;
         },
       })}
       initialRouteName="Trades"

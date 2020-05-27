@@ -8,11 +8,11 @@ import { AppLoading } from 'expo';
 import { useFonts } from '@use-expo/font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import theme from 'assets/theme';
 import { AuthProvider } from 'context/authContext';
-import AuthContext from 'context/authContext';
 import { navigationRef } from 'helpers/navigationRef';
+import AuthContext from 'context/authContext';
 import apolloClient from 'apollo/apolloClient';
+import theme from 'assets/theme';
 
 import MainNavigator from 'navigators/MainNavigator';
 import SigninNavigator from 'navigators/SigninNavigator';
