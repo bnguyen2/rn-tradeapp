@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { css, ThemeContext } from 'styled-components/native';
 import { View, Text } from 'react-native';
+import { css, ThemeContext } from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const SettingsScreen = () => {
+const DashboardScreen = () => {
   const { colors } = useContext(ThemeContext);
+
   return (
     <>
       <SafeAreaView
@@ -31,4 +32,4 @@ const SettingsScreen = () => {
   );
 };
 
-export default SettingsScreen;
+export default DashboardScreen;

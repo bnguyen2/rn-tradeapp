@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { css } from 'styled-components/native';
 import AuthContext from 'context/authContext';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -7,7 +8,7 @@ import serverApi from 'api/serverApi';
 
 import MyAppText from 'components/MyAppText';
 
-const AccountScreen = () => {
+const AccountScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
 
   const getAllPersonsQuery = useQuery(gql`
@@ -19,7 +20,7 @@ const AccountScreen = () => {
     }
   `);
 
-  console.log(getAllPersonsQuery?.data);
+  // console.log(getAllPersonsQuery?.data);
 
   // useEffect(() => {
   //   const fetch = async () => {
@@ -31,29 +32,33 @@ const AccountScreen = () => {
   // }, []);
 
   return (
-    <View style={styles.container}>
+    <View
+      css={css`
+        flex: 1;
+        background-color: #000;
+        align-items: center;
+        justify-content: center;
+      `}
+    >
       <MyAppText>
-        <Text style={styles.text}>todo</Text>
+        <Text
+          css={css`
+            font-size: 20px;
+          `}
+        >
+          todo
+        </Text>
       </MyAppText>
 
-      <Button style={styles.button} title="signout" onPress={signout} />
+      <Button
+        css={css`
+          font-family: Roboto;
+        `}
+        title="signout"
+        onPress={signout}
+      />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 20,
-  },
-  button: {
-    fontFamily: 'Roboto',
-  },
-});
 
 export default AccountScreen;

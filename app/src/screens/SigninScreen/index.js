@@ -1,6 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Button, StyleSheet, TextInput, Text } from 'react-native';
+import { View, Button, Text } from 'react-native';
+import styled, { css } from 'styled-components/native';
 import AuthContext from 'context/authContext';
+
+const StyledTextInput = styled.TextInput`
+  color: #fff;
+  font-size: 18px;
+  width: 200px;
+  height: 50px;
+`;
 
 const SignupScreen = ({ navigation }) => {
   const {
@@ -18,17 +26,22 @@ const SignupScreen = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
+    <View
+      css={css`
+        flex: 1;
+        background-color: #000;
+        align-items: center;
+        justify-content: center;
+      `}
+    >
+      <StyledTextInput
         placeholder="Email Address"
         placeholderTextColor="#a8a8a8"
         autoCorrect={false}
         autoCapitalize="none"
         onChangeText={(text) => setEmail(text)}
       />
-      <TextInput
-        style={styles.input}
+      <StyledTextInput
         placeholder="Password"
         placeholderTextColor="#a8a8a8"
         autoCorrect={false}
@@ -41,32 +54,18 @@ const SignupScreen = ({ navigation }) => {
 
       <Button title="Dismiss" onPress={() => navigation.goBack()} />
 
-      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+      {errorMessage ? (
+        <Text
+          css={css`
+            font-size: 18px;
+            color: red;
+          `}
+        >
+          {errorMessage}
+        </Text>
+      ) : null}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    color: '#fff',
-    fontSize: 18,
-    width: 200,
-    height: 50,
-  },
-  bottom: {
-    position: 'absolute',
-    bottom: 100,
-  },
-  error: {
-    fontSize: 18,
-    color: 'red',
-  },
-});
 
 export default SignupScreen;

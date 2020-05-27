@@ -1,36 +1,41 @@
-import React from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { Text, View, Button } from 'react-native';
+import { css, ThemeContext } from 'styled-components/native';
 import MyAppText from 'components/MyAppText/index';
 
 const HomeScreen = ({ navigation }) => {
+  const { colors } = useContext(ThemeContext);
+
   return (
-    <View style={styles.container}>
+    <View
+      css={css`
+        flex: 1;
+        background-color: #000;
+        align-items: center;
+        justify-content: center;
+      `}
+    >
       <MyAppText>
-        <Text style={styles.text}>This is awesome</Text>
+        <Text
+          css={css`
+            color: #fff;
+          `}
+        >
+          This is awesome
+        </Text>
       </MyAppText>
 
-      <View style={styles.bottom}>
+      <View
+        css={css`
+          position: absolute;
+          bottom: 100px;
+        `}
+      >
         <Button title="Sign up" onPress={() => navigation.navigate('SignupModal')} />
         <Button title="Sign in" onPress={() => navigation.navigate('SigninModal')} />
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#fff',
-  },
-  bottom: {
-    position: 'absolute',
-    bottom: 100,
-  },
-});
 
 export default HomeScreen;
