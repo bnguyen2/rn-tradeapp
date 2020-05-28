@@ -3,8 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import AddTradeNavigator from 'navigators/AddTradeNavigator/index';
+
 import AccountScreen from 'screens/AccountScreen';
-import PortfolioScreen from 'screens/PortfolioScreen';
+
 import SettingsScreen from 'screens/SettingsScreen';
 import DashboardScreen from 'screens/DashboardScreen';
 
@@ -18,7 +20,7 @@ const MainNavigator = () => {
           switch (route.name) {
             case 'Dashboard':
               return <MaterialIcons name="dashboard" color={color} size={size} />;
-            case 'Trades':
+            case 'TradesFlow':
               return <FontAwesome name="list" color={color} size={size} />;
             case 'Account':
               return <FontAwesome name="user" color={color} size={size} />;
@@ -27,7 +29,7 @@ const MainNavigator = () => {
           }
         },
       })}
-      initialRouteName="Trades"
+      initialRouteName="TradesFlow"
       tabBarOptions={{
         showLabel: false,
         tabStyle: {
@@ -43,7 +45,7 @@ const MainNavigator = () => {
       }}
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
-      <Tab.Screen name="Trades" component={PortfolioScreen} />
+      <Tab.Screen name="TradesFlow" component={AddTradeNavigator} />
       <Tab.Screen name="Account" component={AccountScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>

@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { css, ThemeContext } from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
-const PortfolioScreen = () => {
+const AddTradeScreen = ({ navigation }) => {
   const { colors } = useContext(ThemeContext);
 
   return (
@@ -19,35 +19,32 @@ const PortfolioScreen = () => {
           padding-right: 16px;
         `}
       >
-        <View>
-          <Text
+        <TouchableOpacity onPress={() => navigation.pop()}>
+          <Ionicons
+            name="ios-arrow-back"
+            size={24}
+            color={colors.lakeBlue}
             css={css`
-              font-family: Roboto;
-              color: ${colors.lakeBlue};
-              font-size: 16px;
+              flex: 1;
             `}
-          >
-            TradeBook
-          </Text>
-        </View>
+          />
+        </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => console.log('hello')}>
+        <TouchableOpacity onPress={() => navigation.navigate('AddTrades')}>
           <View
             css={css`
               flex-direction: row;
             `}
           >
-            <FontAwesome name="plus" size={20} color={colors.lakeBlue} />
-
             <Text
               css={css`
-                font-family: Roboto;
+                font-family: Roboto-Bold;
                 color: ${colors.lakeBlue};
                 margin-left: 6px;
                 font-size: 16px;
               `}
             >
-              Add
+              Save
             </Text>
           </View>
         </TouchableOpacity>
@@ -65,11 +62,11 @@ const PortfolioScreen = () => {
             color: #fff;
           `}
         >
-          todo
+          Hello!!!
         </Text>
       </View>
     </>
   );
 };
 
-export default PortfolioScreen;
+export default AddTradeScreen;
