@@ -1,19 +1,20 @@
 const colors = {
-  // primary
   darkNavy: '#13191b',
+  navy: '#202d31',
   skyBlue: '#75d9df',
   tar: '#35302f',
-  red: 'ff3333',
+  red: '#ff3333',
+  green: '#28c800',
 
-  // secondary
-  navy: '#314146',
+  navyHeather: '#314146',
   lakeBlue: '#b4dbdd',
   darkHeather: '#535353',
-  pink: 'ff9999',
+  pink: '#ff9999',
+  yellow: '#ffff33',
 
-  // tertiary
   heather: '#b5b5b5',
   silver: '#dcdcdc',
+  lightGray: '#d5d5d5',
 
   white: '#fff',
   black: '#000',

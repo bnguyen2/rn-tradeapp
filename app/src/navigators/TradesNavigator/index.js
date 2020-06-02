@@ -7,7 +7,7 @@ import AddTradeScreen from 'screens/AddTradeScreen';
 
 const Stack = createStackNavigator();
 
-const AddTradeNavigator = () => {
+const TradesNavigator = () => {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Trades" component={TradeScreen}></Stack.Screen>
@@ -16,4 +16,4 @@ const AddTradeNavigator = () => {
   );
 };
 
-export default AddTradeNavigator;
+export default TradesNavigator;
