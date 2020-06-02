@@ -10,14 +10,14 @@ const DashboardScreen = () => {
     <>
       <SafeAreaView
         css={css`
-          background-color: #000;
+          background-color: ${colors.darkNavy};
         `}
       />
 
       <View
         css={css`
           flex: 1;
-          background-color: ${colors.tar};
+          background-color: ${colors.darkNavy};
         `}
       >
         <Text
@@ -25,7 +25,7 @@ const DashboardScreen = () => {
             color: #fff;
           `}
         >
-          todo
+          wtf
         </Text>
       </View>
     </>

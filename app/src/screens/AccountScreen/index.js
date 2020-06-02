@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, Button } from 'react-native';
-import { css } from 'styled-components/native';
+import { css, ThemeContext } from 'styled-components/native';
 import AuthContext from 'context/authContext';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -10,6 +10,7 @@ import MyAppText from 'components/MyAppText';
 
 const AccountScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
+  const { colors } = useContext(ThemeContext);
 
   const getAllPersonsQuery = useQuery(gql`
     query getPerson {
@@ -35,7 +36,7 @@ const AccountScreen = ({ navigation }) => {
     <View
       css={css`
         flex: 1;
-        background-color: #000;
+        background-color: ${colors.darkNavy};
         align-items: center;
         justify-content: center;
       `}

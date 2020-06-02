@@ -10,7 +10,7 @@ const HomeScreen = ({ navigation }) => {
     <View
       css={css`
         flex: 1;
-        background-color: #000;
+        background-color: ${colors.darkNavy};
         align-items: center;
         justify-content: center;
       `}
