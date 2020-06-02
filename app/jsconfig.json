@@ -1,6 +1,30 @@
 {
   "compilerOptions": {
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "validate": false,
+        "lint": {
+          "validProperties": [
+            "aspect-ratio",
+            "elevation",
+            "margin-vertical",
+            "margin-horizontal",
+            "padding-horizontal",
+            "padding-vertical",
+            "resize-mode",
+            "shadow-color",
+            "shadow-opacity",
+            "shadow-offset",
+            "shadow-radius",
+            "text-align-vertical",
+            "tint-color"
+          ]
+        }
+      }
+    ]
   },
+
   "exclude": ["node_modules"]
 }
