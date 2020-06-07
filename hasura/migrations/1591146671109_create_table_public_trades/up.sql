@@ -1,0 +1,1 @@
+CREATE TABLE "public"."trades"("id" bigserial NOT NULL, "type" text NOT NULL, "quantity" bigint NOT NULL, "action" text NOT NULL, "price" numeric NOT NULL, "date" date NOT NULL, "time" timetz NOT NULL, "portfolio_id" bigint NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("portfolio_id") REFERENCES "public"."portfolio"("id") ON UPDATE restrict ON DELETE restrict);
