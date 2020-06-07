@@ -1,22 +1,25 @@
 import React, { useReducer } from 'react';
 import { AsyncStorage } from 'react-native';
+import jwt_decode from 'jwt-decode';
 import authApi from 'api/authApi';
+import { getUserIdFromDecodeToken } from 'helpers/string';
 
 const AuthContext = React.createContext();
 
 const initState = {
   token: null,
+  userId: '',
   errorMessage: '',
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'SIGN_UP':
-      return { errorMessage: '', token: action.payload };
+      return { errorMessage: '', token: action.payload.token, userId: action.payload.userId };
     case 'SIGN_OUT':
-      return { errorMessage: '', token: null };
+      return { errorMessage: '', token: null, userId: '' };
     case 'SIGN_IN':
-      return { errorMessage: '', token: action.payload };
+      return { errorMessage: '', token: action.payload.token, userId: action.payload.userId };
     case 'ERROR':
       return { ...state, errorMessage: action.payload };
     case 'CLEAR_ERROR':
@@ -32,8 +35,14 @@ export const AuthProvider = ({ children }) => {
   const signup = async (firstName, lastName, email, password) => {
     try {
       const response = await authApi.post('/signup', { firstName, lastName, email, password });
-      await AsyncStorage.setItem('token', response.data.token);
-      dispatch({ type: 'SIGN_UP', payload: response.data.token });
+      const token = response.data.token;
+      const decodedToken = jwt_decode(token);
+      const userId = getUserIdFromDecodeToken(decodedToken);
+
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('user_id', String(userId));
+
+      dispatch({ type: 'SIGN_UP', payload: { token: response.data.token, userId } });
     } catch (err) {
       dispatch({ type: 'ERROR', payload: err.response.data.error });
     }
@@ -42,8 +51,14 @@ export const AuthProvider = ({ children }) => {
   const signin = async (email, password) => {
     try {
       const response = await authApi.post('/signin', { email, password });
-      await AsyncStorage.setItem('token', response.data.token);
-      dispatch({ type: 'SIGN_IN', payload: response.data.token });
+      const token = response.data.token;
+      const decodedToken = jwt_decode(token);
+      const userId = getUserIdFromDecodeToken(decodedToken);
+
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('user_id', String(userId)); // async storage only allows strings
+
+      dispatch({ type: 'SIGN_IN', payload: { token: response.data.token, userId } });
     } catch (err) {
       dispatch({ type: 'ERROR', payload: err.response.data.error });
     }
@@ -51,14 +66,17 @@ export const AuthProvider = ({ children }) => {
 
   const signout = async () => {
     await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('user_id');
+
     dispatch({ type: 'SIGN_OUT' });
   };
 
   const tryLocalSignin = async () => {
     const token = await AsyncStorage.getItem('token');
+    const userId = await AsyncStorage.getItem('user_id');
 
     if (token) {
-      dispatch({ type: 'SIGN_IN', payload: token });
+      dispatch({ type: 'SIGN_IN', payload: { token, userId: Number(userId) } });
     }
   };
 
