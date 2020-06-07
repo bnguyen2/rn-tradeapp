@@ -20,10 +20,12 @@ router.post('/signup', async (req, res) => {
 
     const INSERT_PERSON_SQL = `INSERT into person(first_name, last_name) VALUES($1, $2) RETURNING *`;
     const INSERT_AUTH_SQL = `INSERT into auth(email, hashed_password, person_id) VALUES($1, $2, $3)`;
+    const INSERT_PORTFOLIO_SQL = `INSERT into portfolio(name, person_id) VALUES($1, $2)`;
 
     const person = await client.query(INSERT_PERSON_SQL, [firstName, lastName]);
     const personId = person.rows[0].id;
     await client.query(INSERT_AUTH_SQL, [email, hashed, personId]);
+    await client.query(INSERT_PORTFOLIO_SQL, ['Default Portfolio', personId]); // create a default portfolio when user signs up
 
     const token = jwt.sign(
       {

@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import styled, { css, ThemeContext } from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import dayjs from 'dayjs';
-import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import AuthContext from 'context/authContext';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -37,14 +38,17 @@ const NonEditableText = styled.Text`
 
 const AddTradeScreen = ({ navigation }) => {
   const { colors } = useContext(ThemeContext);
+  const {
+    state: { userId },
+  } = useContext(AuthContext);
 
   const [type, setType] = useState('');
   const [ticker, setTicker] = useState('');
   const [quantity, setQuantity] = useState('');
   const [action, setAction] = useState('');
   const [price, setPrice] = useState('');
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
+  const [date, setDate] = useState();
+  const [time, setTime] = useState();
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
@@ -54,20 +58,78 @@ const AddTradeScreen = ({ navigation }) => {
     setDatePickerVisibility(false);
   };
 
-  const handleTimeConfirm = (date) => {
-    setTime(date);
+  const handleTimeConfirm = (time) => {
+    setTime(time);
     setTimePickerVisibility(false);
   };
 
   const getPortfolios = useQuery(gql`
     query get_portfolios {
-      portfolio {
+      portfolio(where: { id: { _eq: 1 } }) {
         name
+        id
       }
     }
   `);
 
-  console.log('getPortfolios: ', getPortfolios?.data);
+  const [submitTrades, { error: mutationError }] = useMutation(gql`
+    mutation(
+      $person_id: bigint
+      $portfolio_id: bigint
+      $type: String
+      $ticker: String
+      $quantity: bigint
+      $action: String
+      $price: numeric
+      $date: date
+      $time: timetz
+    ) {
+      insert_trades(
+        objects: {
+          person_id: $person_id
+          portfolio_id: $portfolio_id
+          type: $type
+          ticker: $ticker
+          quantity: $quantity
+          action: $action
+          price: $price
+          date: $date
+          time: $time
+        }
+      ) {
+        affected_rows
+      }
+    }
+  `);
+
+  const portfolioId = getPortfolios?.data?.portfolio?.[0]?.id;
+
+  const handleSubmit = () => {
+    const dateOfMonth = date
+      ? date.toISOString().split('T')[0]
+      : new Date().toISOString.split('T')[0];
+
+    const timeOfDay = date
+      ? date.toISOString().split('T')[1]
+      : new Date().toISOString.split('T')[1];
+
+    submitTrades({
+      variables: {
+        person_id: userId,
+        portfolio_id: portfolioId,
+        type,
+        quantity,
+        ticker,
+        quantity,
+        action,
+        price,
+        date: dateOfMonth,
+        time: timeOfDay,
+      },
+    });
+
+    navigation.pop();
+  };
 
   return (
     <>
@@ -312,12 +374,7 @@ const AddTradeScreen = ({ navigation }) => {
             height: 90px;
           `}
         >
-          <Button
-            color={colors.skyBlue}
-            onPress={() =>
-              console.log('onsubmit', { type, ticker, quantity, action, price, date, time })
-            }
-          >
+          <Button color={colors.skyBlue} onPress={handleSubmit}>
             <Text
               css={css`
                 font-family: Roboto;
@@ -330,11 +387,30 @@ const AddTradeScreen = ({ navigation }) => {
           </Button>
         </View>
 
+        {mutationError ? (
+          <View
+            css={css`
+              flex-direction: row;
+            `}
+          >
+            <Text
+              css={css`
+                font-size: 14px;
+                color: #fff;
+              `}
+            >
+              :( something went wrong
+            </Text>
+          </View>
+        ) : null}
+
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
           onConfirm={handleDateConfirm}
           onCancel={() => setDatePickerVisibility(false)}
+          date={new Date()}
+          value={date}
         />
 
         <DateTimePickerModal
@@ -343,6 +419,8 @@ const AddTradeScreen = ({ navigation }) => {
           onConfirm={handleTimeConfirm}
           onCancel={() => setTimePickerVisibility(false)}
           headerTextIOS="Pick a time"
+          date={new Date()}
+          value={time}
         />
       </ScrollView>
     </>
