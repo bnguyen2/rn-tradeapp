@@ -47,20 +47,28 @@ const AddTradeScreen = ({ navigation }) => {
   const [quantity, setQuantity] = useState('');
   const [action, setAction] = useState('');
   const [price, setPrice] = useState('');
+
   const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-
-  const handleDateConfirm = (date) => {
-    setDate(date);
-    setDatePickerVisibility(false);
+  const showMode = (currentMode) => {
+    setShowDatePicker(true);
+    setMode(currentMode);
   };
 
-  const handleTimeConfirm = (time) => {
-    setTime(time);
-    setTimePickerVisibility(false);
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+
+  const handleConfirm = (selectedData) => {
+    const currentDate = selectedData || date;
+    setDate(currentDate);
+    setShowDatePicker(false);
   };
 
   const portfoliosQuery = useQuery(gql`
@@ -82,7 +90,7 @@ const AddTradeScreen = ({ navigation }) => {
       $action: String
       $price: numeric
       $date: date
-      $time: timetz
+      $time: time
     ) {
       insert_trades(
         objects: {
@@ -105,27 +113,6 @@ const AddTradeScreen = ({ navigation }) => {
   const portfolioId = portfoliosQuery?.data?.portfolio?.[0]?.id;
 
   const handleSubmit = () => {
-    const dateOfMonth = date
-      ? date.toISOString().split('T')[0]
-      : new Date().toISOString.split('T')[0];
-
-    const timeOfDay = date
-      ? date.toISOString().split('T')[1]
-      : new Date().toISOString.split('T')[1];
-
-    console.log({
-      person_id: userId,
-      portfolio_id: portfolioId,
-      type,
-      quantity,
-      ticker,
-      quantity,
-      action,
-      price,
-      date: dateOfMonth,
-      time: timeOfDay,
-    });
-
     submitTrades({
       variables: {
         person_id: userId,
@@ -136,8 +123,8 @@ const AddTradeScreen = ({ navigation }) => {
         quantity,
         action,
         price,
-        date: dateOfMonth,
-        time: timeOfDay,
+        date: dayjs(date).format('M/D/YYYY'),
+        time: dayjs(date).format('HH:mm'),
       },
     });
 
@@ -356,7 +343,7 @@ const AddTradeScreen = ({ navigation }) => {
           `}
         >
           <Label>Date</Label>
-          <TouchableOpacity onPress={() => setDatePickerVisibility(true)}>
+          <TouchableOpacity onPress={showDatepicker}>
             <NonEditableText>{dayjs(date).format('MMM D, YYYY')}</NonEditableText>
           </TouchableOpacity>
         </View>
@@ -374,8 +361,8 @@ const AddTradeScreen = ({ navigation }) => {
           `}
         >
           <Label>Time</Label>
-          <TouchableOpacity onPress={() => setTimePickerVisibility(true)}>
-            <NonEditableText>{dayjs(time).format('h:mm A')}</NonEditableText>
+          <TouchableOpacity onPress={showTimepicker}>
+            <NonEditableText>{dayjs(date).format('h:mm A')}</NonEditableText>
           </TouchableOpacity>
         </View>
 
@@ -418,22 +405,11 @@ const AddTradeScreen = ({ navigation }) => {
         ) : null}
 
         <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleDateConfirm}
-          onCancel={() => setDatePickerVisibility(false)}
-          date={new Date()}
-          value={date}
-        />
-
-        <DateTimePickerModal
-          isVisible={isTimePickerVisible}
-          mode="time"
-          onConfirm={handleTimeConfirm}
-          onCancel={() => setTimePickerVisibility(false)}
-          headerTextIOS="Pick a time"
-          date={new Date()}
-          value={time}
+          isVisible={showDatePicker}
+          mode={mode}
+          onConfirm={handleConfirm}
+          onCancel={() => setShowDatePicker(false)}
+          date={date}
         />
       </ScrollView>
     </>

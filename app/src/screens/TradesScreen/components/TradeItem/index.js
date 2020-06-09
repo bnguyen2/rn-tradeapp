@@ -51,7 +51,7 @@ const TradeItem = ({ data }) => {
               margin-bottom: 5px;
             `}
           >
-            {`${dayjs(data?.date).format('M/D/YY')} - ${dayjs(data?.date).format('h:mm A')}`}
+            {`${dayjs(`${data?.date}T${data?.time}`).format('M/D/YY - h:mm A')}`}
           </StyledText>
           <StyledText>{`${formatDollars(data?.price)} x ${data?.quantity}`}</StyledText>
         </View>
