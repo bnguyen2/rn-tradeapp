@@ -3,20 +3,27 @@ import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { css, ThemeContext } from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome } from '@expo/vector-icons';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import TradeItem from './components/TradeItem';
 
 const TradesScreen = ({ navigation }) => {
   const { colors } = useContext(ThemeContext);
 
-  const [trades, setTrades] = useState([
-    { id: '1', price: '3009', side: 'long', size: 12 },
-    { id: '2', price: '3007', side: 'long', size: 5 },
-    { id: '3', price: '3012', side: 'long', size: 6 },
-    { id: '4', price: '3005', side: 'long', size: 1 },
-    { id: '5', price: '3004', side: 'long', size: 8 },
-    { id: '6', price: '3006', side: 'long', size: 12 },
-  ]);
+  const tradesQuery = useQuery(gql`
+    query get_trades {
+      trades(order_by: { date: desc, time: desc }) {
+        id
+        price
+        action
+        quantity
+        ticker
+        time
+        date
+      }
+    }
+  `);
 
   return (
     <>
@@ -62,9 +69,9 @@ const TradesScreen = ({ navigation }) => {
         `}
       >
         <FlatList
-          data={trades}
+          data={tradesQuery?.data?.trades}
           renderItem={({ item }) => <TradeItem data={item} />}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => String(item?.id)}
         />
       </View>
     </>

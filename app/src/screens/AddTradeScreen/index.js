@@ -47,8 +47,8 @@ const AddTradeScreen = ({ navigation }) => {
   const [quantity, setQuantity] = useState('');
   const [action, setAction] = useState('');
   const [price, setPrice] = useState('');
-  const [date, setDate] = useState();
-  const [time, setTime] = useState();
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
@@ -63,7 +63,7 @@ const AddTradeScreen = ({ navigation }) => {
     setTimePickerVisibility(false);
   };
 
-  const getPortfolios = useQuery(gql`
+  const portfoliosQuery = useQuery(gql`
     query get_portfolios {
       portfolio(where: { id: { _eq: 1 } }) {
         name
@@ -102,7 +102,7 @@ const AddTradeScreen = ({ navigation }) => {
     }
   `);
 
-  const portfolioId = getPortfolios?.data?.portfolio?.[0]?.id;
+  const portfolioId = portfoliosQuery?.data?.portfolio?.[0]?.id;
 
   const handleSubmit = () => {
     const dateOfMonth = date
@@ -112,6 +112,19 @@ const AddTradeScreen = ({ navigation }) => {
     const timeOfDay = date
       ? date.toISOString().split('T')[1]
       : new Date().toISOString.split('T')[1];
+
+    console.log({
+      person_id: userId,
+      portfolio_id: portfolioId,
+      type,
+      quantity,
+      ticker,
+      quantity,
+      action,
+      price,
+      date: dateOfMonth,
+      time: timeOfDay,
+    });
 
     submitTrades({
       variables: {
@@ -203,9 +216,9 @@ const AddTradeScreen = ({ navigation }) => {
             iosHeader="Select instrument type"
             headerTitleStyle={{ width: 200 }}
           >
-            <Picker.Item label="Futures" value="futures" />
-            <Picker.Item label="Equities" value="equities" />
-            <Picker.Item label="Options" value="options" />
+            <Picker.Item label="Future" value="future" />
+            <Picker.Item label="Equity" value="equity" />
+            <Picker.Item label="Option" value="option" />
           </Picker>
         </View>
 
