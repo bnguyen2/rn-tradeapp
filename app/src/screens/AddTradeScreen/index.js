@@ -71,7 +71,7 @@ const AddTradeScreen = ({ navigation }) => {
     setShowDatePicker(false);
   };
 
-  const portfoliosQuery = useQuery(gql`
+  const { data } = useQuery(gql`
     query get_portfolios {
       portfolio(where: { id: { _eq: 1 } }) {
         name
@@ -91,6 +91,7 @@ const AddTradeScreen = ({ navigation }) => {
       $price: numeric
       $date: date
       $time: time
+      $status: String
     ) {
       insert_trades(
         objects: {
@@ -103,6 +104,7 @@ const AddTradeScreen = ({ navigation }) => {
           price: $price
           date: $date
           time: $time
+          status: $status
         }
       ) {
         affected_rows
@@ -110,7 +112,7 @@ const AddTradeScreen = ({ navigation }) => {
     }
   `);
 
-  const portfolioId = portfoliosQuery?.data?.portfolio?.[0]?.id;
+  const portfolioId = data?.portfolio?.[0]?.id;
 
   const handleSubmit = () => {
     submitTrades({
@@ -125,6 +127,7 @@ const AddTradeScreen = ({ navigation }) => {
         price,
         date: dayjs(date).format('M/D/YYYY'),
         time: dayjs(date).format('HH:mm'),
+        status: 'open', // all initial trade status should be "open", if closed will toggle to "closed"
       },
     });
 
