@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { ScrollView, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
 import { css, ThemeContext } from 'styled-components/native';
 import AuthContext from 'context/authContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+
+import LoadingSpinner from 'components/LoadingSpinner/index';
 
 const AccountScreen = ({ navigation }) => {
   const { signout } = useContext(AuthContext);
@@ -18,8 +20,6 @@ const AccountScreen = ({ navigation }) => {
       }
     }
   `);
-
-  console.log(data);
 
   return (
     <>
@@ -59,7 +59,7 @@ const AccountScreen = ({ navigation }) => {
             `}
           >
             {loading ? (
-              <ActivityIndicator />
+              <LoadingSpinner />
             ) : (
               `${data?.person?.[0]?.first_name} ${data?.person?.[0]?.last_name}`
             )}
