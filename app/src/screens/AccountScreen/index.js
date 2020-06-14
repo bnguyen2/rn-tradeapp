@@ -77,107 +77,118 @@ const AccountScreen = ({ navigation }) => {
           </Text>
         </View>
 
-        <View
-          css={css`
-            align-items: center;
-            border-top-color: ${colors.navy};
-            border-bottom-color: ${colors.navy};
-            border-bottom-width: 1px;
-            border-top-width: 1px;
-
-            padding-top: 20px;
-            padding-bottom: 20px;
-
-            flex-direction: row;
-            justify-content: space-between;
-          `}
-        >
-          <Text
+        <TouchableOpacity onPress={() => console.log('test')}>
+          <View
             css={css`
-              font-size: 20px;
-              color: #fff;
+              align-items: center;
+              border-top-color: ${colors.navy};
+              border-bottom-color: ${colors.navy};
+              border-bottom-width: 1px;
+              border-top-width: 1px;
+
+              padding-top: 20px;
+              padding-bottom: 20px;
+
+              flex-direction: row;
+              justify-content: space-between;
             `}
           >
-            Settings
-          </Text>
+            <Text
+              css={css`
+                font-family: Roboto;
+                font-size: 18px;
+                color: #fff;
+              `}
+            >
+              Settings
+            </Text>
 
-          <Image source={require('assets/png/arrow-icon.png')} />
-        </View>
+            <Image source={require('assets/png/arrow-icon.png')} />
+          </View>
+        </TouchableOpacity>
 
-        <View
-          css={css`
-            align-items: center;
-            border-bottom-color: ${colors.navy};
-            border-bottom-width: 1px;
-
-            padding-top: 20px;
-            padding-bottom: 20px;
-
-            flex-direction: row;
-            justify-content: space-between;
-          `}
-        >
-          <Text
+        <TouchableOpacity onPress={() => console.log('test')}>
+          <View
             css={css`
-              font-size: 20px;
-              color: #fff;
+              align-items: center;
+              border-bottom-color: ${colors.navy};
+              border-bottom-width: 1px;
+
+              padding-top: 20px;
+              padding-bottom: 20px;
+
+              flex-direction: row;
+              justify-content: space-between;
             `}
           >
-            Security
-          </Text>
+            <Text
+              css={css`
+                font-family: Roboto;
+                font-size: 18px;
+                color: #fff;
+              `}
+            >
+              Security
+            </Text>
 
-          <Image source={require('assets/png/arrow-icon.png')} />
-        </View>
+            <Image source={require('assets/png/arrow-icon.png')} />
+          </View>
+        </TouchableOpacity>
 
-        <View
-          css={css`
-            align-items: center;
-            border-bottom-color: ${colors.navy};
-            border-bottom-width: 1px;
-
-            padding-top: 20px;
-            padding-bottom: 20px;
-
-            flex-direction: row;
-            justify-content: space-between;
-          `}
-        >
-          <Text
+        <TouchableOpacity onPress={() => console.log('test')}>
+          <View
             css={css`
-              font-size: 20px;
-              color: #fff;
+              align-items: center;
+              border-bottom-color: ${colors.navy};
+              border-bottom-width: 1px;
+
+              padding-top: 20px;
+              padding-bottom: 20px;
+
+              flex-direction: row;
+              justify-content: space-between;
             `}
           >
-            Support
-          </Text>
+            <Text
+              css={css`
+                font-size: 18px;
+                color: #fff;
+              `}
+            >
+              Support
+            </Text>
 
-          <Image source={require('assets/png/arrow-icon.png')} />
-        </View>
+            <Image source={require('assets/png/arrow-icon.png')} />
+          </View>
+        </TouchableOpacity>
 
-        <View
-          css={css`
-            align-items: center;
-            border-bottom-color: ${colors.navy};
-            border-bottom-width: 1px;
-
-            padding-top: 20px;
-            padding-bottom: 20px;
-
-            flex-direction: row;
-            justify-content: space-between;
-          `}
-        >
-          <Text
+        <TouchableOpacity onPress={() => console.log('test')}>
+          <View
             css={css`
-              font-size: 20px;
-              color: #fff;
+              align-items: center;
+              border-bottom-color: ${colors.navy};
+              border-bottom-width: 1px;
+
+              padding-top: 20px;
+              padding-bottom: 20px;
+
+              flex-direction: row;
+              justify-content: space-between;
             `}
           >
-            Lorem Ipsum
-          </Text>
+            <Text
+              css={css`
+                font-family: Roboto;
+                font-size: 18px;
+                color: #fff;
+              `}
+            >
+              Lorem Ipsum
+            </Text>
 
-          <Image source={require('assets/png/arrow-icon.png')} />
-        </View>
+            <Image source={require('assets/png/arrow-icon.png')} />
+          </View>
+        </TouchableOpacity>
 
         <View
           css={css`
@@ -192,7 +203,8 @@ const AccountScreen = ({ navigation }) => {
           >
             <Text
               css={css`
-                font-size: 20px;
+                font-family: Roboto;
+                font-size: 18px;
                 color: ${colors.red};
               `}
             >
