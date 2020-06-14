@@ -16,6 +16,20 @@
         table:
           schema: public
           name: auth
+  - name: portfolios
+    using:
+      foreign_key_constraint_on:
+        column: person_id
+        table:
+          schema: public
+          name: portfolio
+  - name: trades
+    using:
+      foreign_key_constraint_on:
+        column: person_id
+        table:
+          schema: public
+          name: trades
   select_permissions:
   - role: user
     permission:
@@ -40,6 +54,18 @@
 - table:
     schema: public
     name: portfolio
+  object_relationships:
+  - name: person
+    using:
+      foreign_key_constraint_on: person_id
+  array_relationships:
+  - name: trades
+    using:
+      foreign_key_constraint_on:
+        column: portfolio_id
+        table:
+          schema: public
+          name: trades
   insert_permissions:
   - role: user
     permission:
@@ -81,6 +107,13 @@
 - table:
     schema: public
     name: trades
+  object_relationships:
+  - name: person
+    using:
+      foreign_key_constraint_on: person_id
+  - name: portfolio
+    using:
+      foreign_key_constraint_on: portfolio_id
   insert_permissions:
   - role: user
     permission:
@@ -94,6 +127,7 @@
       - portfolio_id
       - price
       - quantity
+      - status
       - ticker
       - time
       - type
@@ -108,6 +142,7 @@
       - portfolio_id
       - price
       - quantity
+      - status
       - ticker
       - time
       - type
@@ -124,6 +159,7 @@
       - portfolio_id
       - price
       - quantity
+      - status
       - ticker
       - time
       - type
