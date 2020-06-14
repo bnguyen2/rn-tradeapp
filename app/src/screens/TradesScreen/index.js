@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { css, ThemeContext } from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,9 +11,9 @@ import TradeItem from './components/TradeItem';
 const TradesScreen = ({ navigation }) => {
   const { colors } = useContext(ThemeContext);
 
-  const tradesQuery = useQuery(gql`
+  const { data, refetch } = useQuery(gql`
     query get_trades {
-      trades(order_by: { date: desc, time: desc }) {
+      trades(order_by: [{ date: desc, time: desc }]) {
         id
         price
         action
@@ -24,6 +24,20 @@ const TradesScreen = ({ navigation }) => {
       }
     }
   `);
+
+  // workaround fix for apollo-client evaluating '_this.currentObservable' error
+  // github.com/apollographql/react-apollo/issues/3862
+  // const _refetch = useCallback(() => {
+  //   setTimeout(() => refetch(), 0);
+  // }, [refetch]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refetch();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <>
@@ -69,8 +83,12 @@ const TradesScreen = ({ navigation }) => {
         `}
       >
         <FlatList
-          data={tradesQuery?.data?.trades}
-          renderItem={({ item }) => <TradeItem data={item} />}
+          data={data?.trades}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => navigation.navigate('EditTrades')}>
+              <TradeItem data={item} />
+            </TouchableOpacity>
+          )}
           keyExtractor={(item) => String(item?.id)}
         />
       </View>
