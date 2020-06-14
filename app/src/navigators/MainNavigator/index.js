@@ -5,9 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import TradesNavigator from 'navigators/TradesNavigator/index';
 
-import AccountScreen from 'screens/AccountScreen';
-import SettingsScreen from 'screens/SettingsScreen';
 import DashboardScreen from 'screens/DashboardScreen';
+import AccountScreen from 'screens/AccountScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,8 +22,6 @@ const MainNavigator = () => {
               return <FontAwesome name="list" color={color} size={size} />;
             case 'Account':
               return <FontAwesome name="user" color={color} size={size} />;
-            case 'Settings':
-              return <FontAwesome name="gear" color={color} size={size} />;
           }
         },
       })}
@@ -46,7 +43,6 @@ const MainNavigator = () => {
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
       <Tab.Screen name="TradesFlow" component={TradesNavigator} />
       <Tab.Screen name="Account" component={AccountScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 };
