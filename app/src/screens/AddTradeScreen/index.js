@@ -73,7 +73,7 @@ const AddTradeScreen = ({ navigation }) => {
 
   const { data } = useQuery(gql`
     query get_portfolios {
-      portfolio(where: { id: { _eq: 1 } }) {
+      portfolio {
         name
         id
       }
