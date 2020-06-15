@@ -52,7 +52,7 @@ const AccountScreen = ({ navigation }) => {
               font-family: Roboto;
               font-size: 20px;
               margin-top: 10px;
-              height: 20px;
+              height: 24px;
 
               color: #fff;
               text-transform: capitalize;

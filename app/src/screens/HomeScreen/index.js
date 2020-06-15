@@ -42,13 +42,13 @@ const HomeScreen = ({ navigation }) => {
 
             <Text
               css={css`
-                font-family: Roboto-Bold;
-                font-size: 24px;
+                font-family: Roboto;
+                font-size: 26px;
                 margin-top: 16px;
                 color: ${colors.skyBlue};
               `}
             >
-              TradeBook
+              tradebook
             </Text>
           </View>
         </Row>
