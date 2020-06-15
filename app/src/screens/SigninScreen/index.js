@@ -13,7 +13,7 @@ import AuthContext from 'context/authContext';
 
 const StyledTextInput = styled.TextInput`
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   height: 50px;
   padding: 10px;
 `;
@@ -80,7 +80,7 @@ const SignupScreen = ({ navigation }) => {
             `}
           >
             <StyledTextInput
-              placeholder="Email Address"
+              placeholder="Email"
               placeholderTextColor="#a8a8a8"
               autoCorrect={false}
               autoCapitalize="none"
@@ -133,7 +133,7 @@ const SignupScreen = ({ navigation }) => {
               css={css`
                 margin-top: 10px;
                 font-size: 16px;
-                color: ${colors.red};
+                color: ${colors.pink};
               `}
             >
               {errorMessage}
