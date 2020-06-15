@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
                 width: 120px;
                 height: 120px;
               `}
-              source={require('assets/png/logo_medium.png')}
+              source={require('assets/png/logo_icon_medium.png')}
             />
 
             <Text
