@@ -25,7 +25,7 @@ const App = () => {
 
   useEffect(() => {
     tryLocalSignin();
-  }, []);
+  }, [token]);
 
   const [client, setClient] = useState(null);
 
@@ -37,7 +37,7 @@ const App = () => {
 
   useEffect(() => {
     fetchSession();
-  }, []);
+  }, [token]);
 
   const [fontsLoaded] = useFonts({
     Roboto: require('./src/assets/fonts/Roboto-Regular.ttf'),
