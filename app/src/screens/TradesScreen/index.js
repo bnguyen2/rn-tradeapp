@@ -21,6 +21,7 @@ const TradesScreen = ({ navigation }) => {
         ticker
         time
         date
+        status
       }
     }
   `);

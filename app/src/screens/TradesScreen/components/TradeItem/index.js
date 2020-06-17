@@ -25,7 +25,7 @@ const TradeItem = ({ data }) => {
         background-color: ${colors.navy};
         height: 80px;
         padding: 4px;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
         margin-left: 10px;
         margin-right: 10px;
         border-radius: 6px;
@@ -65,7 +65,7 @@ const TradeItem = ({ data }) => {
       >
         <View
           css={css`
-            background-color: ${ACTION_COLOR_MAP[data?.action]};
+            background-color: ${ACTION_COLOR_MAP[data?.status]};
             border-radius: 5px;
             padding: 6px;
             width: 65px;
@@ -73,10 +73,34 @@ const TradeItem = ({ data }) => {
         >
           <Text
             css={css`
-              color: #fff;
+              color: ${colors.navy};
+              text-transform: capitalize;
+              font-family: Roboto;
+              font-size: 14px;
+              text-align: center;
+            `}
+          >
+            {data?.status}
+          </Text>
+        </View>
+
+        <View
+          css={css`
+            /* background-color: ${ACTION_COLOR_MAP[data?.action]}; */
+            /* border-radius: 5px; */
+            /* padding: 6px; */
+            width: 65px;
+            justify-content: center;
+            align-items: center;
+          `}
+        >
+          <Text
+            css={css`
+              margin-top: 6px;
+              color: ${ACTION_COLOR_MAP[data?.action]};
               text-transform: capitalize;
               font-family: Roboto-Bold;
-              font-size: 14px;
+              font-size: 12px;
               text-align: center;
             `}
           >
