@@ -9,7 +9,7 @@ import AuthContext from 'context/authContext';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Picker } from 'native-base';
+import ModalPicker from 'components/ModalPicker/index';
 
 const Label = styled.Text`
   color: #fff;
@@ -33,6 +33,7 @@ const Button = styled.TouchableOpacity`
 const NonEditableText = styled.Text`
   font-family: Roboto;
   font-size: 16px;
+  text-transform: ${({ isEmpty }) => (isEmpty ? 'none' : 'capitalize')};
   color: ${({ isEmpty }) => (isEmpty ? '#a8a8a8' : '#fff')};
 `;
 
@@ -42,12 +43,9 @@ const AddTradeScreen = ({ navigation }) => {
     state: { userId },
   } = useContext(AuthContext);
 
-  const [type, setType] = useState('');
   const [ticker, setTicker] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [action, setAction] = useState('');
   const [price, setPrice] = useState('');
-
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -70,6 +68,12 @@ const AddTradeScreen = ({ navigation }) => {
     setDate(currentDate);
     setShowDatePicker(false);
   };
+
+  const [type, setType] = useState('');
+  const [showType, setShowType] = useState(false);
+
+  const [action, setAction] = useState('');
+  const [showAction, setShowAction] = useState(false);
 
   const { data } = useQuery(gql`
     query get_portfolios {
@@ -180,36 +184,36 @@ const AddTradeScreen = ({ navigation }) => {
           `}
         >
           <Label>Type</Label>
-          <Picker
-            mode="dropdown"
-            style={{
-              width: 200,
-              paddingTop: 0,
-              paddingBottom: 0,
-              height: 'auto',
-            }}
-            textStyle={{
-              color: '#fff',
-              paddingLeft: 0,
-              paddingRight: 0,
-              fontFamily: 'Roboto',
-            }}
-            placeholder="Select type"
-            placeholderStyle={{
-              color: '#a8a8a8',
-              paddingLeft: 0,
-              paddingRight: 0,
-              fontFamily: 'Roboto',
-            }}
-            selectedValue={type}
-            onValueChange={(selectedVal) => setType(selectedVal)}
-            iosHeader="Select instrument type"
-            headerTitleStyle={{ width: 200 }}
+
+          <TouchableOpacity
+            onPress={() => setShowType(true)}
+            hitSlop={{ top: 15, bottom: 15, left: 10, right: 10 }}
           >
-            <Picker.Item label="Future" value="future" />
-            <Picker.Item label="Equity" value="equity" />
-            <Picker.Item label="Option" value="option" />
-          </Picker>
+            <NonEditableText isEmpty={type === ''}>{type || 'Select type'}</NonEditableText>
+          </TouchableOpacity>
+
+          {showType && (
+            <ModalPicker
+              headerTitle="Select type"
+              selectedValue={type}
+              onClose={() => setShowType(false)}
+              onConfirm={setType}
+              options={[
+                {
+                  label: 'Future',
+                  value: 'future',
+                },
+                {
+                  label: 'Equity',
+                  value: 'equity',
+                },
+                {
+                  label: 'Option',
+                  value: 'option',
+                },
+              ]}
+            />
+          )}
         </View>
 
         <View
@@ -276,35 +280,31 @@ const AddTradeScreen = ({ navigation }) => {
           `}
         >
           <Label>Action</Label>
-          <Picker
-            mode="dropdown"
-            style={{
-              width: 200,
-              paddingTop: 0,
-              paddingBottom: 0,
-              height: 'auto',
-            }}
-            textStyle={{
-              color: '#fff',
-              paddingLeft: 0,
-              paddingRight: 0,
-              fontFamily: 'Roboto',
-            }}
-            placeholder="Select action"
-            placeholderStyle={{
-              color: '#a8a8a8',
-              paddingLeft: 0,
-              paddingRight: 0,
-              fontFamily: 'Roboto',
-            }}
-            selectedValue={action}
-            onValueChange={(selectedVal) => setAction(selectedVal)}
-            iosHeader="Select action"
-            headerTitleStyle={{ width: 200 }}
+          <TouchableOpacity
+            onPress={() => setShowAction(true)}
+            hitSlop={{ top: 15, bottom: 15, left: 10, right: 10 }}
           >
-            <Picker.Item label="Long" value="long" />
-            <Picker.Item label="Short" value="short" />
-          </Picker>
+            <NonEditableText isEmpty={action === ''}>{action || 'Select action'}</NonEditableText>
+          </TouchableOpacity>
+
+          {showAction && (
+            <ModalPicker
+              headerTitle="Select action"
+              selectedValue={action}
+              onClose={() => setShowAction(false)}
+              onConfirm={setAction}
+              options={[
+                {
+                  label: 'Long',
+                  value: 'long',
+                },
+                {
+                  label: 'Short',
+                  value: 'short',
+                },
+              ]}
+            />
+          )}
         </View>
 
         <View
@@ -420,3 +420,66 @@ const AddTradeScreen = ({ navigation }) => {
 };
 
 export default AddTradeScreen;
+
+/*
+<Picker
+  mode="dropdown"
+  style={{
+    width: 200,
+    paddingTop: 0,
+    paddingBottom: 0,
+    height: 'auto',
+  }}
+  textStyle={{
+    color: '#fff',
+    paddingLeft: 0,
+    paddingRight: 0,
+    fontFamily: 'Roboto',
+  }}
+  placeholder="Select type"
+  placeholderStyle={{
+    color: '#a8a8a8',
+    paddingLeft: 0,
+    paddingRight: 0,
+    fontFamily: 'Roboto',
+  }}
+  selectedValue={type}
+  onValueChange={(selectedVal) => setType(selectedVal)}
+  iosHeader="Select instrument type"
+  headerTitleStyle={{ width: 200 }}
+>
+  <Picker.Item label="Future" value="future" />
+  <Picker.Item label="Equity" value="equity" />
+  <Picker.Item label="Option" value="option" />
+</Picker> 
+
+ <Picker
+  mode="dropdown"
+  style={{
+    width: 200,
+    paddingTop: 0,
+    paddingBottom: 0,
+    height: 'auto',
+  }}
+  textStyle={{
+    color: '#fff',
+    paddingLeft: 0,
+    paddingRight: 0,
+    fontFamily: 'Roboto',
+  }}
+  placeholder="Select action"
+  placeholderStyle={{
+    color: '#a8a8a8',
+    paddingLeft: 0,
+    paddingRight: 0,
+    fontFamily: 'Roboto',
+  }}
+  selectedValue={action}
+  onValueChange={(selectedVal) => setAction(selectedVal)}
+  iosHeader="Select action"
+  headerTitleStyle={{ width: 200 }}
+>
+  <Picker.Item label="Long" value="long" />
+  <Picker.Item label="Short" value="short" />
+</Picker>
+  */
