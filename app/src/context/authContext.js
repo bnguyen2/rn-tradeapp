@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { AsyncStorage } from 'react-native';
 import jwt_decode from 'jwt-decode';
-import authApi from 'api/authApi';
+import serverApi from 'api/serverApi';
 import { getUserIdFromDecodeToken } from 'helpers/string';
 
 const AuthContext = React.createContext();
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (firstName, lastName, email, password) => {
     try {
-      const response = await authApi.post('/signup', { firstName, lastName, email, password });
+      const response = await serverApi.post('/signup', { firstName, lastName, email, password });
       const token = response.data.token;
       const decodedToken = jwt_decode(token);
       const userId = getUserIdFromDecodeToken(decodedToken);
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
   const signin = async (email, password) => {
     try {
-      const response = await authApi.post('/signin', { email, password });
+      const response = await serverApi.post('/signin', { email, password });
       const token = response.data.token;
       const decodedToken = jwt_decode(token);
       const userId = getUserIdFromDecodeToken(decodedToken);
