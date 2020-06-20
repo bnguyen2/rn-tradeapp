@@ -8,10 +8,11 @@ const LinePriceChart = ({ data }) => {
   const firstPrice = data[0];
   const lastPrice = data[data.length - 1];
 
-  const isIncreasing = firstPrice.y < lastPrice.y;
+  const isIncreasing = parseFloat(firstPrice.y) < parseFloat(lastPrice.y);
 
   return (
     <VictoryChart
+      scale={{ x: 'time' }}
       theme={{
         axis: {
           style: {
@@ -34,7 +35,6 @@ const LinePriceChart = ({ data }) => {
     >
       <VictoryAxis
         dependentAxis
-        label="Price"
         style={{
           axisLabel: { fontSize: 14, stroke: colors.lakeBlue, textAnchor: 'middle' },
           axis: { stroke: colors.lakeBlue },
@@ -42,7 +42,6 @@ const LinePriceChart = ({ data }) => {
       />
 
       <VictoryAxis
-        label="Date"
         style={{
           axisLabel: { fontSize: 14, stroke: colors.lakeBlue, textAnchor: 'middle', padding: 30 },
           axis: { stroke: colors.lakeBlue },

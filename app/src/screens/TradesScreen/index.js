@@ -86,7 +86,9 @@ const TradesScreen = ({ navigation }) => {
         <FlatList
           data={data?.trades}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate('EditTrades')}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('TradeDetail', { ticker: item?.ticker })}
+            >
               <TradeItem data={item} />
             </TouchableOpacity>
           )}

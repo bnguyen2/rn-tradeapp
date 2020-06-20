@@ -86,9 +86,6 @@ const TradeItem = ({ data }) => {
 
         <View
           css={css`
-            /* background-color: ${ACTION_COLOR_MAP[data?.action]}; */
-            /* border-radius: 5px; */
-            /* padding: 6px; */
             width: 65px;
             justify-content: center;
             align-items: center;
