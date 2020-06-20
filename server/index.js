@@ -6,6 +6,7 @@ const cors = require('cors');
 const { HASURA_HOSTNAME } = require('./constants');
 
 const authRoutes = require('./routes/authRoutes');
+const tickerRoutes = require('./routes/tickerRoutes');
 
 const PORT = process.env.EXPRESS_PORT || 3000;
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 // routes
 app.use(authRoutes);
+app.use(tickerRoutes);
 
 // Redirect /api to hasura console
 app.get(/\/api$/, (_, res) => res.redirect(`${HASURA_HOSTNAME}/console`));
